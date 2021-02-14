@@ -16,41 +16,41 @@
  */
 package org.apache.commons.lang3.concurrent;
 
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.spy;
+
 import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Test class for {@code LazyInitializer}.
  */
 public class LazyInitializerTest extends AbstractConcurrentInitializerTest {
-    /** The initializer to be tested. */
-    private LazyInitializerTestImpl initializer;
+	public static LazyInitializer<Object> mockLazyInitializer1() {
+		LazyInitializer<Object> mockInstance = spy(LazyInitializer.class);
+		try {
+			doReturn(new Object()).when(mockInstance).initialize();
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+		return mockInstance;
+	}
 
-    @BeforeEach
-    public void setUp() {
-        initializer = new LazyInitializerTestImpl();
-    }
+	/** The initializer to be tested. */
+	private LazyInitializer<Object> initializer;
 
-    /**
-     * Returns the initializer to be tested. This implementation returns the
-     * {@code LazyInitializer} created in the {@code setUp()} method.
-     *
-     * @return the initializer to be tested
-     */
-    @Override
-    protected ConcurrentInitializer<Object> createInitializer() {
-        return initializer;
-    }
+	@BeforeEach
+	public void setUp() {
+		initializer = LazyInitializerTest.mockLazyInitializer1();
+	}
 
-    /**
-     * A test implementation of LazyInitializer. This class creates a plain
-     * Object. As Object does not provide a specific equals() method, it is easy
-     * to check whether multiple instances were created.
-     */
-    private static class LazyInitializerTestImpl extends
-            LazyInitializer<Object> {
-        @Override
-        protected Object initialize() {
-            return new Object();
-        }
-    }
+	/**
+	 * Returns the initializer to be tested. This implementation returns the
+	 * {@code LazyInitializer} created in the {@code setUp()} method.
+	 *
+	 * @return the initializer to be tested
+	 */
+	@Override
+	protected ConcurrentInitializer<Object> createInitializer() {
+		return initializer;
+	}
 }

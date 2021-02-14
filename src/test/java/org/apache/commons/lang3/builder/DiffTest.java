@@ -21,51 +21,50 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Unit tests {@link Diff}.
  */
 public class DiffTest {
 
-    private static final String FIELD_NAME = "field";
-    private static final Diff<Boolean> booleanDiff = new BooleanDiff(FIELD_NAME);
+	private static final String FIELD_NAME = "field";
+	private static final Diff<Boolean> booleanDiff = new BooleanDiff(FIELD_NAME);
 
-    private static class BooleanDiff extends Diff<Boolean> {
-        private static final long serialVersionUID = 1L;
+	private static class BooleanDiff extends Diff<Boolean> {
+		private static final long serialVersionUID = 1L;
 
-        protected BooleanDiff(final String fieldName) {
-            super(fieldName);
-        }
+		protected BooleanDiff(final String fieldName) {
+			super(fieldName);
+		}
 
-        @Override
-        public Boolean getLeft() {
-            return Boolean.TRUE;
-        }
+		@Override
+		public Boolean getLeft() {
+			return Boolean.TRUE;
+		}
 
-        @Override
-        public Boolean getRight() {
-            return Boolean.FALSE;
-        }
-    }
+		@Override
+		public Boolean getRight() {
+			return Boolean.FALSE;
+		}
+	}
 
-    @Test
-    public void testCannotModify() {
-        assertThrows(UnsupportedOperationException.class, () -> booleanDiff.setValue(Boolean.FALSE));
-    }
+	@Test
+	public void testCannotModify() {
+		assertThrows(UnsupportedOperationException.class, () -> booleanDiff.setValue(Boolean.FALSE));
+	}
 
-    @Test
-    public void testGetFieldName() {
-        assertEquals(FIELD_NAME, booleanDiff.getFieldName());
-    }
+	@Test
+	public void testGetFieldName() {
+		assertEquals(FIELD_NAME, booleanDiff.getFieldName());
+	}
 
-    @Test
-    public void testGetType() {
-        assertEquals(Boolean.class, booleanDiff.getType());
-    }
+	@Test
+	public void testGetType() {
+		assertEquals(Boolean.class, booleanDiff.getType());
+	}
 
-    @Test
-    public void testToString() {
-        assertEquals(String.format("[%s: %s, %s]", FIELD_NAME, booleanDiff.getLeft(),
-                booleanDiff.getRight()), booleanDiff.toString());
-    }
+	@Test
+	public void testToString() {
+		assertEquals(String.format("[%s: %s, %s]", FIELD_NAME, booleanDiff.getLeft(), booleanDiff.getRight()),
+				booleanDiff.toString());
+	}
 }

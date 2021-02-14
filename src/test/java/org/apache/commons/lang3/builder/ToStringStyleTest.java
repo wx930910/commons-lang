@@ -17,6 +17,7 @@
 package org.apache.commons.lang3.builder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.spy;
 
 import org.junit.jupiter.api.Test;
 
@@ -25,114 +26,115 @@ import org.junit.jupiter.api.Test;
  */
 public class ToStringStyleTest {
 
-    private static class ToStringStyleImpl extends ToStringStyle {
-        private static final long serialVersionUID = 1L;
+	public static ToStringStyle mockToStringStyle1() {
+		long mockFieldVariableSerialVersionUID = 1L;
+		ToStringStyle mockInstance = spy(ToStringStyle.class);
+		return mockInstance;
+	}
 
-    }
+	// -----------------------------------------------------------------------
+	@Test
+	public void testSetArrayStart() {
+		final ToStringStyle style = ToStringStyleTest.mockToStringStyle1();
+		style.setArrayStart(null);
+		assertEquals("", style.getArrayStart());
+	}
 
-    //-----------------------------------------------------------------------
-    @Test
-    public void testSetArrayStart() {
-        final ToStringStyle style = new ToStringStyleImpl();
-        style.setArrayStart(null);
-        assertEquals("", style.getArrayStart());
-    }
+	@Test
+	public void testSetArrayEnd() {
+		final ToStringStyle style = ToStringStyleTest.mockToStringStyle1();
+		style.setArrayEnd(null);
+		assertEquals("", style.getArrayEnd());
+	}
 
-    @Test
-    public void testSetArrayEnd() {
-        final ToStringStyle style = new ToStringStyleImpl();
-        style.setArrayEnd(null);
-        assertEquals("", style.getArrayEnd());
-    }
+	@Test
+	public void testSetArraySeparator() {
+		final ToStringStyle style = ToStringStyleTest.mockToStringStyle1();
+		style.setArraySeparator(null);
+		assertEquals("", style.getArraySeparator());
+	}
 
-    @Test
-    public void testSetArraySeparator() {
-        final ToStringStyle style = new ToStringStyleImpl();
-        style.setArraySeparator(null);
-        assertEquals("", style.getArraySeparator());
-    }
+	@Test
+	public void testSetContentStart() {
+		final ToStringStyle style = ToStringStyleTest.mockToStringStyle1();
+		style.setContentStart(null);
+		assertEquals("", style.getContentStart());
+	}
 
-    @Test
-    public void testSetContentStart() {
-        final ToStringStyle style = new ToStringStyleImpl();
-        style.setContentStart(null);
-        assertEquals("", style.getContentStart());
-    }
+	@Test
+	public void testSetContentEnd() {
+		final ToStringStyle style = ToStringStyleTest.mockToStringStyle1();
+		style.setContentEnd(null);
+		assertEquals("", style.getContentEnd());
+	}
 
-    @Test
-    public void testSetContentEnd() {
-        final ToStringStyle style = new ToStringStyleImpl();
-        style.setContentEnd(null);
-        assertEquals("", style.getContentEnd());
-    }
+	@Test
+	public void testSetFieldNameValueSeparator() {
+		final ToStringStyle style = ToStringStyleTest.mockToStringStyle1();
+		style.setFieldNameValueSeparator(null);
+		assertEquals("", style.getFieldNameValueSeparator());
+	}
 
-    @Test
-    public void testSetFieldNameValueSeparator() {
-        final ToStringStyle style = new ToStringStyleImpl();
-        style.setFieldNameValueSeparator(null);
-        assertEquals("", style.getFieldNameValueSeparator());
-    }
+	@Test
+	public void testSetFieldSeparator() {
+		final ToStringStyle style = ToStringStyleTest.mockToStringStyle1();
+		style.setFieldSeparator(null);
+		assertEquals("", style.getFieldSeparator());
+	}
 
-    @Test
-    public void testSetFieldSeparator() {
-        final ToStringStyle style = new ToStringStyleImpl();
-        style.setFieldSeparator(null);
-        assertEquals("", style.getFieldSeparator());
-    }
+	@Test
+	public void testSetNullText() {
+		final ToStringStyle style = ToStringStyleTest.mockToStringStyle1();
+		style.setNullText(null);
+		assertEquals("", style.getNullText());
+	}
 
-    @Test
-    public void testSetNullText() {
-        final ToStringStyle style = new ToStringStyleImpl();
-        style.setNullText(null);
-        assertEquals("", style.getNullText());
-    }
+	@Test
+	public void testSetSizeStartText() {
+		final ToStringStyle style = ToStringStyleTest.mockToStringStyle1();
+		style.setSizeStartText(null);
+		assertEquals("", style.getSizeStartText());
+	}
 
-    @Test
-    public void testSetSizeStartText() {
-        final ToStringStyle style = new ToStringStyleImpl();
-        style.setSizeStartText(null);
-        assertEquals("", style.getSizeStartText());
-    }
+	@Test
+	public void testSetSizeEndText() {
+		final ToStringStyle style = ToStringStyleTest.mockToStringStyle1();
+		style.setSizeEndText(null);
+		assertEquals("", style.getSizeEndText());
+	}
 
-    @Test
-    public void testSetSizeEndText() {
-        final ToStringStyle style = new ToStringStyleImpl();
-        style.setSizeEndText(null);
-        assertEquals("", style.getSizeEndText());
-    }
+	@Test
+	public void testSetSummaryObjectStartText() {
+		final ToStringStyle style = ToStringStyleTest.mockToStringStyle1();
+		style.setSummaryObjectStartText(null);
+		assertEquals("", style.getSummaryObjectStartText());
+	}
 
-    @Test
-    public void testSetSummaryObjectStartText() {
-        final ToStringStyle style = new ToStringStyleImpl();
-        style.setSummaryObjectStartText(null);
-        assertEquals("", style.getSummaryObjectStartText());
-    }
+	@Test
+	public void testSetSummaryObjectEndText() {
+		final ToStringStyle style = ToStringStyleTest.mockToStringStyle1();
+		style.setSummaryObjectEndText(null);
+		assertEquals("", style.getSummaryObjectEndText());
+	}
 
-    @Test
-    public void testSetSummaryObjectEndText() {
-        final ToStringStyle style = new ToStringStyleImpl();
-        style.setSummaryObjectEndText(null);
-        assertEquals("", style.getSummaryObjectEndText());
-    }
+	/**
+	 * An object used to test {@link ToStringStyle}.
+	 *
+	 */
+	static class Person {
+		/**
+		 * Test String field.
+		 */
+		String name;
 
-    /**
-     * An object used to test {@link ToStringStyle}.
-     *
-     */
-    static class Person {
-        /**
-         * Test String field.
-         */
-        String name;
+		/**
+		 * Test integer field.
+		 */
+		int age;
 
-        /**
-         * Test integer field.
-         */
-        int age;
-
-        /**
-         * Test boolean field.
-         */
-        boolean smoker;
-    }
+		/**
+		 * Test boolean field.
+		 */
+		boolean smoker;
+	}
 }

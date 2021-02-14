@@ -17,6 +17,8 @@
 package org.apache.commons.lang3.concurrent;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.spy;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -26,53 +28,48 @@ import org.junit.jupiter.api.Test;
 /**
  * Test class for {@code AtomicSafeInitializer}.
  */
-public class AtomicSafeInitializerTest extends
-        AbstractConcurrentInitializerTest {
-    /** The instance to be tested. */
-    private AtomicSafeInitializerTestImpl initializer;
+public class AtomicSafeInitializerTest extends AbstractConcurrentInitializerTest {
+	AtomicInteger initializerInitCounter = new AtomicInteger();
 
-    @BeforeEach
-    public void setUp() {
-        initializer = new AtomicSafeInitializerTestImpl();
-    }
+	/** The instance to be tested. */
+	private AtomicSafeInitializer<Object> initializer;
 
-    /**
-     * Returns the initializer to be tested.
-     *
-     * @return the {@code AtomicSafeInitializer} under test
-     */
-    @Override
-    protected ConcurrentInitializer<Object> createInitializer() {
-        return initializer;
-    }
+	@BeforeEach
+	public void setUp() {
+		initializer = spy(AtomicSafeInitializer.class);
+		try {
+			doAnswer((stubInvo) -> {
+				initializerInitCounter.incrementAndGet();
+				return new Object();
+			}).when(initializer).initialize();
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+	}
 
-    /**
-     * Tests that initialize() is called only once.
-     *
-     * @throws org.apache.commons.lang3.concurrent.ConcurrentException because {@link #testGetConcurrent()} may throw it
-     * @throws java.lang.InterruptedException because {@link #testGetConcurrent()} may throw it
-     */
-    @Test
-    public void testNumberOfInitializeInvocations() throws ConcurrentException,
-            InterruptedException {
-        testGetConcurrent();
-        assertEquals(1, initializer.initCounter.get(), "Wrong number of invocations");
-    }
+	/**
+	 * Returns the initializer to be tested.
+	 *
+	 * @return the {@code AtomicSafeInitializer} under test
+	 */
+	@Override
+	protected ConcurrentInitializer<Object> createInitializer() {
+		return initializer;
+	}
 
-    /**
-     * A concrete test implementation of {@code AtomicSafeInitializer}. This
-     * implementation also counts the number of invocations of the initialize()
-     * method.
-     */
-    private static class AtomicSafeInitializerTestImpl extends
-            AtomicSafeInitializer<Object> {
-        /** A counter for initialize() invocations. */
-        final AtomicInteger initCounter = new AtomicInteger();
-
-        @Override
-        protected Object initialize() {
-            initCounter.incrementAndGet();
-            return new Object();
-        }
-    }
+	/**
+	 * Tests that initialize() is called only once.
+	 *
+	 * @throws org.apache.commons.lang3.concurrent.ConcurrentException because
+	 *                                                                 {@link #testGetConcurrent()}
+	 *                                                                 may throw it
+	 * @throws java.lang.InterruptedException                          because
+	 *                                                                 {@link #testGetConcurrent()}
+	 *                                                                 may throw it
+	 */
+	@Test
+	public void testNumberOfInitializeInvocations() throws ConcurrentException, InterruptedException {
+		testGetConcurrent();
+		assertEquals(1, initializerInitCounter.get(), "Wrong number of invocations");
+	}
 }
